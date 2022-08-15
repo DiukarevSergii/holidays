@@ -9,19 +9,20 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping(path = "api/v1/holiday")
 public class HolidayController {
-    private final HolidayService holidaysService;
+    private final HolidayService<LocalDate, String> holidaysService;
 
     @Autowired
-    public HolidayController(@Qualifier("DBHolidayService") HolidayService holidaysService) {
+    public HolidayController(@Qualifier("DBHolidayService") HolidayService<LocalDate, String> holidaysService) {
         this.holidaysService = holidaysService;
     }
 
     @GetMapping
-    public Map getHolidays() {
+    public Map<LocalDate, Set<Holiday>> getHolidays() {
         return holidaysService.getHolidays();
     }
 
