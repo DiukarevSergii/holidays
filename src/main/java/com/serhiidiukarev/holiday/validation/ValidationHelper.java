@@ -1,16 +1,27 @@
 package com.serhiidiukarev.holiday.validation;
 
 import com.serhiidiukarev.holiday.Holiday;
+import com.serhiidiukarev.holiday.repository.HolidayRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 /**
  * Reusable utility class which provides a bunch of method for validation support
  */
+@Component
 public abstract class ValidationHelper {
     static Logger logger = LogManager.getLogger(ValidationHelper.class);
+    private static HolidayRepository holidayRepository;
+
+    @Autowired
+    protected ValidationHelper(HolidayRepository holidayRepository) {
+        ValidationHelper.holidayRepository = holidayRepository;
+    }
 
     /**
      * @param holiday {@link Holiday} instance
@@ -53,5 +64,15 @@ public abstract class ValidationHelper {
         IllegalArgumentException illegalArgumentException = new IllegalArgumentException(message);
         logger.error(message, illegalArgumentException);
         throw illegalArgumentException;
+    }
+
+    public static void isHolidayAlreadyExisted(Holiday holiday) {
+        validateHoliday(holiday);
+        Optional<Holiday> holidayOptional = holidayRepository.findHoliday(
+                holiday.getHolidayDate(), holiday.getHolidayName(), holiday.getHolidayCategory());
+
+        if (holidayOptional.isPresent()) {
+            throw new IllegalArgumentException("already added");
+        }
     }
 }
