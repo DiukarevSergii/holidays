@@ -1,0 +1,20 @@
+[
+  {
+    "id": 0,
+    "category": "CUSTOM",
+    "name": "CUSTOM0 - version 2",
+    "date": "2020-01-01"
+  },
+  {
+    "id": 0,
+    "category": "CUSTOM",
+    "name": "CUSTOM0",
+    "date": "2020-01-01"
+  },
+  {
+    "id": 1,
+    "category": "CUSTOM",
+    "name": "CUSTOM1",
+    "date": "2020-01-04"
+  }
+]
