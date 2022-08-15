@@ -1,8 +1,12 @@
 package com.serhiidiukarev.holiday.service;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.serhiidiukarev.holiday.Holiday;
+import com.serhiidiukarev.holiday.utils.HolidayHelper;
+import com.serhiidiukarev.holiday.utils.HolidayTreeSetComparator;
+import com.serhiidiukarev.holiday.utils.LocalDateAdapter;
 import com.serhiidiukarev.holiday.validation.ValidationHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,12 +14,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.lang.reflect.Type;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
@@ -58,17 +59,7 @@ public class DefaultHolidayService implements HolidaysService<LocalDate, String>
     public int countWorkingDaysBetween(LocalDate startDate, LocalDate endDate) {
         ValidationHelper.validateDates(startDate, endDate);
 
-        // Predicate 1: Is a given date is a holiday
-        Predicate<LocalDate> isHoliday = holidays::containsKey;
-
-        // Predicate 2: Is a given date is a weekday
-        Predicate<LocalDate> isWeekend = date -> date.getDayOfWeek() == DayOfWeek.SATURDAY
-                || date.getDayOfWeek() == DayOfWeek.SUNDAY;
-
-        return (int) Stream.iterate(startDate, d -> d.plusDays(1))
-                .limit(ChronoUnit.DAYS.between(startDate, endDate) + 1)
-                .filter(isWeekend.or(isHoliday).negate())
-                .count();
+        return HolidayHelper.countWorkingDaysBetween(startDate, endDate, this.holidays);
     }
 
 
@@ -84,14 +75,7 @@ public class DefaultHolidayService implements HolidaysService<LocalDate, String>
      */
     @Override
     public boolean addHoliday(LocalDate date) {
-        ValidationHelper.validateDate(date);
-
-        Holiday holiday = Holiday
-                .builder()
-                .holidayName(date.toString())
-                .holidayCategory(Holiday.HolidayCategory.CUSTOM)
-                .holidayDate(date)
-                .build();
+        Holiday holiday = HolidayHelper.buildHoliday(date);
 
         return addHoliday(holiday);
     }
@@ -218,40 +202,5 @@ public class DefaultHolidayService implements HolidaysService<LocalDate, String>
     public void clear() {
         holidays.clear();
         counter = 0;
-    }
-
-    /**
-     * A {@link LocalDateAdapter} implemented to serializer and
-     * deserializer {@link LocalDate} for Json base on interval
-     * representation of {@link DateTimeFormatter}
-     */
-    public static class LocalDateAdapter implements JsonDeserializer<LocalDate>, JsonSerializer<LocalDate> {
-        public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        /**
-         * Serialize date to Json
-         *
-         * @param localDate the object that needs to be converted to Json.
-         * @param srcType   the actual type (fully genericized version) of the source object.
-         * @return a tree of {@link JsonElement}s corresponding to the serialized form of {@code src}.
-         */
-        @Override
-        public JsonElement serialize(LocalDate localDate, Type srcType, JsonSerializationContext context) {
-            return new JsonPrimitive(formatter.format(localDate));
-        }
-
-        /**
-         * SDeserialize date from Json
-         *
-         * @param json    The Json data being deserialized
-         * @param typeOfT The type of the Object to deserialize to
-         * @return a deserialized object of the specified type typeOfT which is a subclass of {@code T}
-         * @throws JsonParseException if json is not in the expected format of {@code typeofT}
-         */
-        @Override
-        public LocalDate deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-                throws JsonParseException {
-            return LocalDate.parse(json.getAsString(), formatter);
-        }
     }
 }
