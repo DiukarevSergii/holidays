@@ -1,6 +1,6 @@
 package com.serhiidiukarev.holiday;
 
-import com.serhiidiukarev.holiday.service.DefaultHolidayService;
+import com.serhiidiukarev.holiday.utils.LocalDateAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -9,7 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @SpringBootTest
 public class HolidayTest {
@@ -117,7 +118,7 @@ public class HolidayTest {
         public void builder_initialParameters_instanceShouldKeepTheSameValues(
                 int id, String category, String name, String date) {
             Holiday.HolidayCategory holidayCategory = Holiday.HolidayCategory.valueOf(category);
-            LocalDate localDate = LocalDate.parse(date, DefaultHolidayService.LocalDateAdapter.formatter);
+            LocalDate localDate = LocalDate.parse(date, LocalDateAdapter.formatter);
 
             Holiday holiday = Holiday
                     .builder()
