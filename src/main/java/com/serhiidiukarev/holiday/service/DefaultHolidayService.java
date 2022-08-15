@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.serhiidiukarev.holiday.Holiday;
-import com.serhiidiukarev.holiday.utils.HolidayHelper;
 import com.serhiidiukarev.holiday.utils.HolidayTreeSetComparator;
 import com.serhiidiukarev.holiday.utils.LocalDateAdapter;
 import com.serhiidiukarev.holiday.validation.ValidationHelper;
@@ -17,21 +16,24 @@ import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Resizable-map implementation of the {@link  HolidaysService} interface.  Implements
+ * Resizable-map implementation of the {@link  HolidayService} interface.  Implements
  * all optional operations, and permits all elements, including
- * {@code null}.  In addition to implementing the {@code HolidaysService} interface,
+ * {@code null}.  In addition to implementing the {@code HolidayService} interface,
  * this class provides methods to manipulate the order of the set's element
  * by {@link HolidayTreeSetComparator} and has his own implementation to serializer
  * and deserializer {@link LocalDate} for Json by {@link LocalDateAdapter}. This class also keeps
  * an id {@code counter} which is incremented after if successful extend of collection
  *
- * @see HolidaysService
+ * @see HolidayService
  */
 @Service("DefaultHolidayService")
-public class DefaultHolidayService implements HolidaysService<LocalDate, String> {
+public class DefaultHolidayService implements HolidayService<LocalDate, String> {
 
     /**
      * Default logger
@@ -46,7 +48,7 @@ public class DefaultHolidayService implements HolidaysService<LocalDate, String>
     /**
      * Default counter which represent an index for each successfully added element
      */
-    private int counter = 0;
+    private long counter = 0;
 
     /**
      * Calculate the number of workdays between two given dates (inclusive)
@@ -59,7 +61,7 @@ public class DefaultHolidayService implements HolidaysService<LocalDate, String>
     public int countWorkingDaysBetween(LocalDate startDate, LocalDate endDate) {
         ValidationHelper.validateDates(startDate, endDate);
 
-        return HolidayHelper.countWorkingDaysBetween(startDate, endDate, this.holidays);
+        return countWorkingDaysBetween(startDate, endDate, this.holidays);
     }
 
 
@@ -71,11 +73,11 @@ public class DefaultHolidayService implements HolidaysService<LocalDate, String>
      *
      * @param date date of a new holiday
      * @return {@code true} if this collection changed as a result of the call
-     * (as specified by {@link HolidaysService#addHoliday(Object)})
+     * (as specified by {@link HolidayService#addHoliday(Object)})
      */
     @Override
     public boolean addHoliday(LocalDate date) {
-        Holiday holiday = HolidayHelper.buildHoliday(date);
+        Holiday holiday = buildHoliday(date);
 
         return addHoliday(holiday);
     }
@@ -88,7 +90,7 @@ public class DefaultHolidayService implements HolidaysService<LocalDate, String>
      *
      * @param holiday a new holiday
      * @return {@code true} if this collection changed as a result of the call
-     * (as specified by {@link HolidaysService#addHoliday(Object)})
+     * (as specified by {@link HolidayService#addHoliday(Object)})
      */
     @Override
     public boolean addHoliday(Holiday holiday) {
@@ -202,5 +204,41 @@ public class DefaultHolidayService implements HolidaysService<LocalDate, String>
     public void clear() {
         holidays.clear();
         counter = 0;
+    }
+
+    @Override
+    public boolean deleteHoliday(Long holidayId) {
+        AtomicBoolean removed = new AtomicBoolean(false);
+        holidays.values()
+                .forEach(holidaySet -> {
+                    List<Holiday> found = holidaySet
+                            .stream()
+                            .filter(item -> Objects.equals(item.getHolidayId(), holidayId)).collect(Collectors.toList());
+                    if (!found.isEmpty()) {
+                        found.forEach(holidaySet::remove);
+                        removed.set(true);
+                    }
+                });
+        return removed.get();
+    }
+
+    @Override
+    public Holiday updateHoliday(Long holidayId, LocalDate holidayDate, String holidayName, Holiday.HolidayCategory holidayCategory) {
+        AtomicReference<Holiday> holiday = new AtomicReference<>();
+        holidays.values()
+                .forEach(holidaySet -> {
+                    List<Holiday> found = holidaySet
+                            .stream()
+                            .filter(item -> Objects.equals(item.getHolidayId(), holidayId)).collect(Collectors.toList());
+                    if (!found.isEmpty()) {
+                        found.forEach(holidayItem -> {
+                            holidayItem.setHolidayCategory(holidayCategory);
+                            holidayItem.setHolidayDate(holidayDate);
+                            holidayItem.setHolidayCategory(holidayCategory);
+                            holiday.set(holidayItem);
+                        });
+                    }
+                });
+        return holiday.get();
     }
 }

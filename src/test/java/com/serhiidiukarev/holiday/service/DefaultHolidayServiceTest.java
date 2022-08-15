@@ -28,7 +28,7 @@ public class DefaultHolidayServiceTest {
 
     @Qualifier("DefaultHolidayService")
     @Autowired
-    private HolidaysService<LocalDate, String> holidaysService;
+    private HolidayService<LocalDate, String> holidaysService;
     private Map<LocalDate, Set<Holiday>> holidays;
 
     @BeforeEach

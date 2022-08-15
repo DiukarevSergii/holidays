@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.serhiidiukarev.holiday.Holiday;
 import com.serhiidiukarev.holiday.repository.HolidayRepository;
-import com.serhiidiukarev.holiday.utils.HolidayHelper;
 import com.serhiidiukarev.holiday.utils.HolidayTreeSetComparator;
 import com.serhiidiukarev.holiday.utils.LocalDateAdapter;
 import com.serhiidiukarev.holiday.validation.ValidationHelper;
@@ -14,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
@@ -22,8 +22,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Service
-public class DBHolidayService implements HolidaysService<LocalDate, String> {
+@Service("DBHolidayService")
+public class DBHolidayService implements HolidayService<LocalDate, String> {
     /**
      * DB logger
      */
@@ -48,7 +48,7 @@ public class DBHolidayService implements HolidaysService<LocalDate, String> {
 
         Map<LocalDate, Set<Holiday>> holidays = getHolidays();
 
-        return HolidayHelper.countWorkingDaysBetween(startDate, endDate, holidays);
+        return countWorkingDaysBetween(startDate, endDate, holidays);
     }
 
     /**
@@ -59,7 +59,7 @@ public class DBHolidayService implements HolidaysService<LocalDate, String> {
      */
     @Override
     public boolean addHoliday(LocalDate date) {
-        Holiday holiday = HolidayHelper.buildHoliday(date);
+        Holiday holiday = buildHoliday(date);
 
         return addHoliday(holiday);
     }
@@ -90,7 +90,7 @@ public class DBHolidayService implements HolidaysService<LocalDate, String> {
 
         List<Holiday> holidays = Stream.iterate(startDate, d -> d.plusDays(1))
                 .limit(ChronoUnit.DAYS.between(startDate, endDate) + 1)
-                .map(HolidayHelper::buildHoliday)
+                .map(this::buildHoliday)
                 .collect(Collectors.toList());
 
         holidays.forEach(ValidationHelper::isHolidayAlreadyExisted);
@@ -171,5 +171,33 @@ public class DBHolidayService implements HolidaysService<LocalDate, String> {
     @Override
     public void clear() {
         holidayRepository.deleteAll();
+    }
+
+    @Override
+    public boolean deleteHoliday(Long holidayId) {
+        ValidationHelper.isHolidayExist(holidayId);
+        holidayRepository.deleteById(holidayId);
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public Holiday updateHoliday(Long holidayId,
+                                 LocalDate holidayDate,
+                                 String holidayName,
+                                 Holiday.HolidayCategory holidayCategory) {
+        Holiday holiday = holidayRepository.findById(holidayId)
+                .orElseThrow(() -> new IllegalArgumentException("holiday with id=" + holidayId + " does not exists"));
+
+        if (holidayDate != null && !Objects.equals(holiday.getHolidayDate(), holidayDate)) {
+            holiday.setHolidayDate(holidayDate);
+        }
+        if (holidayName != null && !Objects.equals(holiday.getHolidayName(), holidayName)) {
+            holiday.setHolidayName(holidayName);
+        }
+        if (holidayCategory != null && !Objects.equals(holiday.getHolidayCategory(), holidayCategory)) {
+            holiday.setHolidayCategory(holidayCategory);
+        }
+        return holiday;
     }
 }

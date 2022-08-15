@@ -14,7 +14,7 @@ import java.util.Optional;
  * Reusable utility class which provides a bunch of method for validation support
  */
 @Component
-public abstract class ValidationHelper {
+public class ValidationHelper {
     static Logger logger = LogManager.getLogger(ValidationHelper.class);
     private static HolidayRepository holidayRepository;
 
@@ -73,6 +73,14 @@ public abstract class ValidationHelper {
 
         if (holidayOptional.isPresent()) {
             throw new IllegalArgumentException("already added");
+        }
+    }
+
+    public static void isHolidayExist(Long holidayId) {
+        boolean exists = holidayRepository.existsById(holidayId);
+
+        if (!exists) {
+            throw new IllegalArgumentException("holiday with id=" + holidayId + " does not exists");
         }
     }
 }

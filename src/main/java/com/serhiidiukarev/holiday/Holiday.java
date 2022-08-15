@@ -25,7 +25,7 @@ public class Holiday {
             generator = "holiday_sequence"
     )
     @Column(name = "id")
-    private Integer holidayId;
+    private Long holidayId;
     @SerializedName("date")
     @Column(name = "date")
     private LocalDate holidayDate;
@@ -41,16 +41,24 @@ public class Holiday {
     /**
      * It is a constructor.
      *
-     * @param holidayId       the integer
+     * @param holidayId       the long
      * @param holidayDate     the local date
      * @param holidayName     the display name
      * @param holidayCategory the holiday category
      */
-    private Holiday(Integer holidayId,
+    private Holiday(Long holidayId,
                     LocalDate holidayDate,
                     String holidayName,
                     HolidayCategory holidayCategory) {
         this.holidayId = holidayId;
+        this.holidayDate = holidayDate;
+        this.holidayName = holidayName;
+        this.holidayCategory = holidayCategory;
+    }
+
+    private Holiday(LocalDate holidayDate,
+                    String holidayName,
+                    HolidayCategory holidayCategory) {
         this.holidayDate = holidayDate;
         this.holidayName = holidayName;
         this.holidayCategory = holidayCategory;
@@ -104,7 +112,7 @@ public class Holiday {
      *
      * @return the holiday identifier
      */
-    public Integer getHolidayId() {
+    public Long getHolidayId() {
         return this.holidayId;
     }
 
@@ -142,7 +150,7 @@ public class Holiday {
      *
      * @param holidayId the id
      */
-    public void setHolidayId(Integer holidayId) {
+    public void setHolidayId(Long holidayId) {
         this.holidayId = holidayId;
     }
 
@@ -189,7 +197,7 @@ public class Holiday {
      * Holiday Builder
      */
     public static class HolidayBuilder {
-        private Integer holidayId;
+        private Long holidayId;
         private LocalDate holidayDate;
         private String holidayName;
         private HolidayCategory holidayCategory;
@@ -202,7 +210,7 @@ public class Holiday {
          *
          * @param holidayId the id
          */
-        public HolidayBuilder holidayId(Integer holidayId) {
+        public HolidayBuilder holidayId(Long holidayId) {
             this.holidayId = holidayId;
             return this;
         }

@@ -16,8 +16,8 @@ public class HolidayTreeSetComparatorTest {
 
     @BeforeEach
     public void init() {
-        holiday1 = Holiday.builder().holidayId(1).holidayCategory(Holiday.HolidayCategory.GOVERNMENT).holidayName("B").build();
-        holiday2 = Holiday.builder().holidayId(1).holidayCategory(Holiday.HolidayCategory.GOVERNMENT).holidayName("B").build();
+        holiday1 = Holiday.builder().holidayId(1L).holidayCategory(Holiday.HolidayCategory.GOVERNMENT).holidayName("B").build();
+        holiday2 = Holiday.builder().holidayId(1L).holidayCategory(Holiday.HolidayCategory.GOVERNMENT).holidayName("B").build();
     }
 
     @Test
@@ -25,13 +25,13 @@ public class HolidayTreeSetComparatorTest {
         HolidayTreeSetComparator holidayTreeSetComparator = new HolidayTreeSetComparator();
         assertEquals(0, holidayTreeSetComparator.compare(holiday1, holiday2));
 
-        holiday1.setHolidayId(2);
+        holiday1.setHolidayId(2L);
         assertEquals(0, holidayTreeSetComparator.compare(holiday1, holiday2));
 
-        holiday1.setHolidayId(2);
+        holiday1.setHolidayId(2L);
         assertEquals(0, holidayTreeSetComparator.compare(holiday1, holiday2));
 
-        holiday1.setHolidayId(0);
+        holiday1.setHolidayId(0L);
         holiday1.setHolidayName("A");
         assertEquals(-1, holidayTreeSetComparator.compare(holiday1, holiday2));
         assertEquals(1, holidayTreeSetComparator.compare(holiday2, holiday1));

@@ -27,8 +27,8 @@ public class HolidayTreeSetComparator implements Comparator<Holiday> {
             return 0;
         }
 
-        Integer holidayId1 = h1.getHolidayId();
-        Integer holidayId2 = h2.getHolidayId();
+        Long holidayId1 = h1.getHolidayId();
+        Long holidayId2 = h2.getHolidayId();
 
         if (holidayId1 == null && holidayId2 == null || Objects.equals(holidayId1, holidayId2)) {
             if (h1.getHolidayName().equals(h2.getHolidayName())) {

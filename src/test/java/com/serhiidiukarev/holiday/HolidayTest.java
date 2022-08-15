@@ -20,15 +20,15 @@ public class HolidayTest {
 
     @BeforeEach
     public void init() {
-        holiday1 = Holiday.builder().holidayId(1).holidayCategory(Holiday.HolidayCategory.CUSTOM).holidayName("Holiday Name").build();
-        holiday2 = Holiday.builder().holidayId(1).holidayCategory(Holiday.HolidayCategory.CUSTOM).holidayName("Holiday Name").build();
+        holiday1 = Holiday.builder().holidayId(1L).holidayCategory(Holiday.HolidayCategory.CUSTOM).holidayName("Holiday Name").build();
+        holiday2 = Holiday.builder().holidayId(1L).holidayCategory(Holiday.HolidayCategory.CUSTOM).holidayName("Holiday Name").build();
     }
 
     @Test
     public void equals_EqualsObjects_True() {
         assertEquals(holiday1, holiday2);
 
-        holiday2.setHolidayId(2);
+        holiday2.setHolidayId(2L);
 
         assertEquals(holiday1, holiday2);
 
@@ -69,7 +69,7 @@ public class HolidayTest {
 
         assertNotEquals(holiday1, holiday2);
 
-        holiday1.setHolidayId(1);
+        holiday1.setHolidayId(1L);
         holiday1.setHolidayCategory(Holiday.HolidayCategory.GOVERNMENT);
 
         assertNotEquals(holiday1, holiday2);
@@ -116,7 +116,7 @@ public class HolidayTest {
         @ParameterizedTest
         @CsvFileSource(resources = "/data.csv")
         public void builder_initialParameters_instanceShouldKeepTheSameValues(
-                int id, String category, String name, String date) {
+                long id, String category, String name, String date) {
             Holiday.HolidayCategory holidayCategory = Holiday.HolidayCategory.valueOf(category);
             LocalDate localDate = LocalDate.parse(date, LocalDateAdapter.formatter);
 
