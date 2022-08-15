@@ -1,0 +1,11 @@
+---
+app-configuration:
+  holidaysMapping:
+    '0':
+      - Holiday 1
+      - CUSTOM
+      - 2020-01-02
+    '1':
+      - Holiday 2
+      - GOVERNMENT
+      - 2020-01-04

@@ -24,12 +24,17 @@ public class Holiday {
             strategy = GenerationType.SEQUENCE,
             generator = "holiday_sequence"
     )
+    @Column(name = "id")
     private Integer holidayId;
     @SerializedName("date")
+    @Column(name = "date")
     private LocalDate holidayDate;
     @SerializedName("name")
+    @Column(name = "name")
     private String holidayName;
     @SerializedName("category")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "category")
     private HolidayCategory holidayCategory;
 
 
