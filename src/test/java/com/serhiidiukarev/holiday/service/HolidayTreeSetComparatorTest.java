@@ -21,7 +21,7 @@ public class HolidayTreeSetComparatorTest {
 
     @Test
     public void testCompare() {
-        DefaultHolidayService.HolidayTreeSetComparator holidayTreeSetComparator = new DefaultHolidayService.HolidayTreeSetComparator();
+        HolidayTreeSetComparator holidayTreeSetComparator = new HolidayTreeSetComparator();
         assertEquals(0, holidayTreeSetComparator.compare(holiday1, holiday2));
 
         holiday1.setHolidayId(2);

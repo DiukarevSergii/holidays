@@ -8,6 +8,7 @@ import org.junit.jupiter.params.converter.ConvertWith;
 import org.junit.jupiter.params.converter.SimpleArgumentConverter;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.File;
@@ -25,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 public class DefaultHolidayServiceTest {
 
+    @Qualifier("DefaultHolidayService")
     @Autowired
     private HolidaysService<LocalDate, String> holidaysService;
     private Map<LocalDate, Set<Holiday>> holidays;
