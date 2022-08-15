@@ -1,4 +1,4 @@
-package com.serhiidiukarev.holiday.service;
+package com.serhiidiukarev.holiday.utils;
 
 import com.serhiidiukarev.holiday.Holiday;
 
@@ -11,7 +11,7 @@ import java.util.Objects;
  * on internal field's values in that order: {@code counter},
  * {@link Holiday#getHolidayName()}, {@link Holiday#getHolidayCategory()}
  */
-class HolidayTreeSetComparator implements Comparator<Holiday> {
+public class HolidayTreeSetComparator implements Comparator<Holiday> {
     /**
      * Compares two {@link Holiday} objects
      *
