@@ -1,6 +1,6 @@
-package com.serhiidiukarev.holidays.service;
+package com.serhiidiukarev.holiday.service;
 
-import com.serhiidiukarev.holidays.Holiday;
+import com.serhiidiukarev.holiday.Holiday;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.converter.ArgumentConversionException;
@@ -19,7 +19,7 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.util.Set;
 
-import static com.serhiidiukarev.holidays.service.DefaultHolidaysService.LocalDateAdapter;
+import static com.serhiidiukarev.holiday.service.DefaultHolidayService.LocalDateAdapter;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest

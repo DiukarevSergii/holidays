@@ -1,6 +1,6 @@
-package com.serhiidiukarev.holidays.validation;
+package com.serhiidiukarev.holiday.validation;
 
-import com.serhiidiukarev.holidays.Holiday;
+import com.serhiidiukarev.holiday.Holiday;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

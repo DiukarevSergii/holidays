@@ -1,6 +1,6 @@
-package com.serhiidiukarev.holidays.service;
+package com.serhiidiukarev.holiday.service;
 
-import com.serhiidiukarev.holidays.Holiday;
+import com.serhiidiukarev.holiday.Holiday;
 
 import java.time.LocalDate;
 import java.util.Map;

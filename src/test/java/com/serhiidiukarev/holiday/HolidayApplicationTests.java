@@ -1,4 +1,4 @@
-package com.serhiidiukarev.holidays;
+package com.serhiidiukarev.holiday;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

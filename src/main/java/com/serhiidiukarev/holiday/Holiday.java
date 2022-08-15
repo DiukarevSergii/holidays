@@ -1,4 +1,4 @@
-package com.serhiidiukarev.holidays;
+package com.serhiidiukarev.holiday;
 
 import com.google.gson.annotations.SerializedName;
 

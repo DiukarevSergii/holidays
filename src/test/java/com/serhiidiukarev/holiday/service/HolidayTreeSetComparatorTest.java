@@ -1,6 +1,6 @@
-package com.serhiidiukarev.holidays.service;
+package com.serhiidiukarev.holiday.service;
 
-import com.serhiidiukarev.holidays.Holiday;
+import com.serhiidiukarev.holiday.Holiday;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,7 +21,7 @@ public class HolidayTreeSetComparatorTest {
 
     @Test
     public void testCompare() {
-        DefaultHolidaysService.HolidayTreeSetComparator holidayTreeSetComparator = new DefaultHolidaysService.HolidayTreeSetComparator();
+        DefaultHolidayService.HolidayTreeSetComparator holidayTreeSetComparator = new DefaultHolidayService.HolidayTreeSetComparator();
         assertEquals(0, holidayTreeSetComparator.compare(holiday1, holiday2));
 
         holiday1.setHolidayId(2);

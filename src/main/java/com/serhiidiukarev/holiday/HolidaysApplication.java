@@ -1,4 +1,4 @@
-package com.serhiidiukarev.holidays;
+package com.serhiidiukarev.holiday;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

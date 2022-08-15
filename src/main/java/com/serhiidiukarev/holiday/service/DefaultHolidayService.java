@@ -1,9 +1,9 @@
-package com.serhiidiukarev.holidays.service;
+package com.serhiidiukarev.holiday.service;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
-import com.serhiidiukarev.holidays.Holiday;
-import com.serhiidiukarev.holidays.validation.ValidationHelper;
+import com.serhiidiukarev.holiday.Holiday;
+import com.serhiidiukarev.holiday.validation.ValidationHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -30,12 +30,12 @@ import java.util.stream.Stream;
  * @see HolidaysService
  */
 @Service
-public class DefaultHolidaysService implements HolidaysService<LocalDate, String> {
+public class DefaultHolidayService implements HolidaysService<LocalDate, String> {
 
     /**
      * Default logger
      */
-    Logger logger = LogManager.getLogger(DefaultHolidaysService.class);
+    Logger logger = LogManager.getLogger(DefaultHolidayService.class);
     /**
      * Default map which keeps dates associated with sets of {@link Holiday}
      * For sorting uses {@link HolidayTreeSetComparator}
@@ -45,7 +45,7 @@ public class DefaultHolidaysService implements HolidaysService<LocalDate, String
     /**
      * Default counter which represent an index for each successfully added element
      */
-    private static int counter = 0;
+    private int counter = 0;
 
     /**
      * Calculate the number of workdays between two given dates (inclusive)

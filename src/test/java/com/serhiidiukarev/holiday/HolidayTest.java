@@ -1,6 +1,6 @@
-package com.serhiidiukarev.holidays;
+package com.serhiidiukarev.holiday;
 
-import com.serhiidiukarev.holidays.service.DefaultHolidaysService;
+import com.serhiidiukarev.holiday.service.DefaultHolidayService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -117,7 +117,7 @@ public class HolidayTest {
         public void builder_initialParameters_instanceShouldKeepTheSameValues(
                 int id, String category, String name, String date) {
             Holiday.HolidayCategory holidayCategory = Holiday.HolidayCategory.valueOf(category);
-            LocalDate localDate = LocalDate.parse(date, DefaultHolidaysService.LocalDateAdapter.formatter);
+            LocalDate localDate = LocalDate.parse(date, DefaultHolidayService.LocalDateAdapter.formatter);
 
             Holiday holiday = Holiday
                     .builder()
