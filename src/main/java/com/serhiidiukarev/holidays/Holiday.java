@@ -2,6 +2,7 @@ package com.serhiidiukarev.holidays;
 
 import com.google.gson.annotations.SerializedName;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -9,8 +10,20 @@ import java.util.Objects;
 /**
  * The class Holiday
  */
+@Entity
+@Table
 public class Holiday {
     @SerializedName("id")
+    @Id
+    @SequenceGenerator(
+            name = "holiday_sequence",
+            sequenceName = "holiday_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "holiday_sequence"
+    )
     private Integer holidayId;
     @SerializedName("date")
     private LocalDate holidayDate;
@@ -28,11 +41,17 @@ public class Holiday {
      * @param holidayName     the display name
      * @param holidayCategory the holiday category
      */
-    private Holiday(final Integer holidayId, final LocalDate holidayDate, final String holidayName, final HolidayCategory holidayCategory) {
+    private Holiday(Integer holidayId,
+                    LocalDate holidayDate,
+                    String holidayName,
+                    HolidayCategory holidayCategory) {
         this.holidayId = holidayId;
         this.holidayDate = holidayDate;
         this.holidayName = holidayName;
         this.holidayCategory = holidayCategory;
+    }
+
+    public Holiday() {
     }
 
 
@@ -118,7 +137,7 @@ public class Holiday {
      *
      * @param holidayId the id
      */
-    public void setHolidayId(final Integer holidayId) {
+    public void setHolidayId(Integer holidayId) {
         this.holidayId = holidayId;
     }
 
@@ -128,7 +147,7 @@ public class Holiday {
      *
      * @param holidayDate the holiday
      */
-    public void setHolidayDate(final LocalDate holidayDate) {
+    public void setHolidayDate(LocalDate holidayDate) {
         this.holidayDate = holidayDate;
     }
 
@@ -138,7 +157,7 @@ public class Holiday {
      *
      * @param holidayName the display name
      */
-    public void setHolidayName(final String holidayName) {
+    public void setHolidayName(String holidayName) {
         this.holidayName = holidayName;
     }
 
@@ -148,7 +167,7 @@ public class Holiday {
      *
      * @param holidayCategory the holiday category
      */
-    public void setHolidayCategory(final HolidayCategory holidayCategory) {
+    public void setHolidayCategory(HolidayCategory holidayCategory) {
         this.holidayCategory = holidayCategory;
     }
 
@@ -178,7 +197,7 @@ public class Holiday {
          *
          * @param holidayId the id
          */
-        public HolidayBuilder holidayId(final Integer holidayId) {
+        public HolidayBuilder holidayId(Integer holidayId) {
             this.holidayId = holidayId;
             return this;
         }
@@ -189,7 +208,7 @@ public class Holiday {
          *
          * @param holidayDate the date
          */
-        public HolidayBuilder holidayDate(final LocalDate holidayDate) {
+        public HolidayBuilder holidayDate(LocalDate holidayDate) {
             this.holidayDate = holidayDate;
             return this;
         }
@@ -200,7 +219,7 @@ public class Holiday {
          *
          * @param holidayName the display name
          */
-        public HolidayBuilder holidayName(final String holidayName) {
+        public HolidayBuilder holidayName(String holidayName) {
             this.holidayName = holidayName;
             return this;
         }
@@ -211,7 +230,7 @@ public class Holiday {
          *
          * @param holidayCategory the holiday category
          */
-        public HolidayBuilder holidayCategory(final HolidayCategory holidayCategory) {
+        public HolidayBuilder holidayCategory(HolidayCategory holidayCategory) {
             this.holidayCategory = holidayCategory;
             return this;
         }
