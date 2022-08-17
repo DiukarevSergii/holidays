@@ -20,6 +20,7 @@ The number of workdays between June 27, 2022 and July 4th, 2022 is 5.
 1. Object oriented design
 2. Code maintainability
 3. Unit tests
-4. REST API //todo
-5. DB integration //todo
+4. REST API
+5. DB integration
 6. Integration tests //todo
+7. update README
