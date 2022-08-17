@@ -2,7 +2,6 @@ package com.serhiidiukarev.holiday.repository;
 
 import com.serhiidiukarev.holiday.Holiday;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -16,11 +15,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class HolidayRepositoryTest {
 
     @Autowired
-    private HolidayRepository holidayRepository;
+    private HolidayRepository underTest;
 
     @AfterEach
     void tearDown() {
-        holidayRepository.deleteAll();
+        underTest.deleteAll();
     }
 
     @Test
@@ -34,10 +33,10 @@ class HolidayRepositoryTest {
                 .holidayCategory(category)
                 .holidayName(name)
                 .build();
-        holidayRepository.save(holiday);
+        underTest.save(holiday);
 
         //when
-        Optional<Holiday> holidayOptional = holidayRepository.findHoliday(date, name, category);
+        Optional<Holiday> holidayOptional = underTest.findHoliday(date, name, category);
         //then
         assertTrue(holidayOptional.isPresent());
         assertEquals(holidayOptional.get().getHolidayName(), name);
@@ -58,7 +57,7 @@ class HolidayRepositoryTest {
                 .build();
 
         //when
-        Optional<Holiday> holidayOptional = holidayRepository.findHoliday(date, name, category);
+        Optional<Holiday> holidayOptional = underTest.findHoliday(date, name, category);
         //then
         assertFalse(holidayOptional.isPresent());
     }
