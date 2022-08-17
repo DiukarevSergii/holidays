@@ -145,6 +145,7 @@ public class DBHolidayService implements HolidayService<LocalDate, String> {
         }
     }
 
+    @Override
     public Map<LocalDate, Set<Holiday>> getHolidays() {
         List<Holiday> all = holidayRepository.findAll();
         Map<LocalDate, Set<Holiday>> holidays = new TreeMap<>();
