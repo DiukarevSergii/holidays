@@ -2,6 +2,7 @@ package com.serhiidiukarev.holiday.service;
 
 import com.serhiidiukarev.holiday.Holiday;
 import com.serhiidiukarev.holiday.utils.LocalDateAdapter;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.converter.ArgumentConversionException;
@@ -32,8 +33,12 @@ public class DefaultHolidayServiceTest {
     private Map<LocalDate, Set<Holiday>> holidays;
 
     @BeforeEach
-    public void init() {
+    public void setUp() {
         holidays = holidaysService.getHolidays();
+    }
+
+    @AfterEach
+    void tearDown() {
         holidaysService.clear();
     }
 
