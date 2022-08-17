@@ -21,13 +21,13 @@ public class Holiday {
             allocationSize = 1
     )
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "holiday_sequence"
+            generator = "holiday_sequence",
+            strategy = GenerationType.SEQUENCE
     )
     @Column(name = "id")
     private Long holidayId;
     @SerializedName("date")
-    @Column(name = "date")
+    @Column(name = "date", nullable = false)
     private LocalDate holidayDate;
     @SerializedName("name")
     @Column(name = "name")
