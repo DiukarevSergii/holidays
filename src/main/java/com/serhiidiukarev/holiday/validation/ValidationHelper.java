@@ -16,6 +16,7 @@ import java.util.Optional;
 @Component
 public class ValidationHelper {
     static Logger logger = LogManager.getLogger(ValidationHelper.class);
+
     private static HolidayRepository holidayRepository;
 
     @Autowired
@@ -50,7 +51,7 @@ public class ValidationHelper {
      */
     public static void validateDates(LocalDate startDate, LocalDate endDate) {
         if (startDate == null || endDate == null) {
-            throwNewIllegalArgumentException("Invalid method argument(s): (startDate" + startDate + ", endDate" + endDate + ")");
+            throwNewIllegalArgumentException("Invalid method argument(s): (startDate=" + startDate + ", endDate=" + endDate + ")");
         }
     }
 
