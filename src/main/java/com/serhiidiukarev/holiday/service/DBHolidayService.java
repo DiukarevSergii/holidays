@@ -22,6 +22,18 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Implementation of the {@link  HolidayService} interface for working
+ * with database entity {@link Holiday}.
+ *
+ * Implements all optional operations, and permits all elements, including
+ * {@code null}.  In addition to implementing the {@link HolidayService} interface,
+ * this class provides methods to manipulate the order of the set's element
+ * by {@link HolidayTreeSetComparator} and has his own implementation to serializer
+ * and deserializer {@link LocalDate} for Json by {@link LocalDateAdapter}.
+ *
+ * @see HolidayService
+ */
 @Service("DBHolidayService")
 public class DBHolidayService implements HolidayService<LocalDate, String> {
     /**
