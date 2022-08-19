@@ -205,18 +205,5 @@ public class DefaultHolidayServiceTest {
         assertEquals(expected, actual);
     }
 
-    public static class LocalDateConverter extends SimpleArgumentConverter {
-        @Override
-        protected Object convert(Object source, Class<?> targetType) throws ArgumentConversionException {
-            if (!(source instanceof String)) {
-                throw new IllegalArgumentException("The argument should be a string: " + source);
-            }
-            try {
-                return LocalDate.parse((String) source, LocalDateAdapter.formatter);
-            } catch (Exception e) {
-                throw new IllegalArgumentException("Failed to convert", e);
-            }
-        }
-    }
 }
 
