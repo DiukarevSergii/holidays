@@ -1,13 +1,11 @@
 package com.serhiidiukarev.holiday.service;
 
 import com.serhiidiukarev.holiday.Holiday;
-import com.serhiidiukarev.holiday.utils.LocalDateAdapter;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.converter.ArgumentConversionException;
 import org.junit.jupiter.params.converter.ConvertWith;
-import org.junit.jupiter.params.converter.SimpleArgumentConverter;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -27,10 +25,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 public class DefaultHolidayServiceTest {
 
+    public static final String TO_WRITE = "src/test/resources/file-to-write.json";
     @Qualifier("DefaultHolidayService")
     @Autowired
     private HolidayService<LocalDate, String> holidaysService;
     private Map<LocalDate, Set<Holiday>> holidays;
+
 
     @BeforeEach
     public void setUp() {
@@ -40,6 +40,11 @@ public class DefaultHolidayServiceTest {
     @AfterEach
     void tearDown() {
         holidaysService.clear();
+    }
+
+    @AfterAll
+    static void afterAll() {
+        new File(TO_WRITE).delete();
     }
 
     @ParameterizedTest
@@ -169,10 +174,8 @@ public class DefaultHolidayServiceTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"src/test/resources/file-to-write.json,src/test/resources/file-to-read.json"})
+    @CsvSource({TO_WRITE + ",src/test/resources/file-to-read.json"})
     public void writeHolidaysToJSON_PathToJson_AddAllObjectsToHolidays(String toWrite, String toRead) throws IOException {
-        new File(toWrite).delete();
-
         Holiday holiday0 = Holiday
                 .builder()
                 .holidayDate(LocalDate.of(2020, 1, 1))
